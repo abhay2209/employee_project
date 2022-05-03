@@ -21,8 +21,9 @@ import net.javaguides.springbootbackend.model.Employee;
 import net.javaguides.springbootbackend.repository.EmployeeRepository;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1")
 public class EmployeeController {
 
@@ -51,7 +52,7 @@ public class EmployeeController {
     }
 
     //Update employee
-    @PutMapping("/emmployees/id")
+    @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
          // Find employee by id or throw not found exception
          Employee employee = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Employee doesn't exist with id:" + id));
@@ -65,14 +66,14 @@ public class EmployeeController {
     }
 
     // delete Employee Rest API
-    @DeleteMapping("/employee/{id}")
+    @DeleteMapping("/employees/{id}")
     public Map<String, Boolean> deleteEmployee(@PathVariable Long id){
         Employee employee = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Employee doesn't exist with id:" + id));
 
         employeeRepository.delete(employee); 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
+        return response;
 
     }
 }
