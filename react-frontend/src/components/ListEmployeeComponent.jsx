@@ -16,19 +16,16 @@ class ListEmployeeComponent extends Component {
     }
 
 
-    componentDidMount(){
-        EmployeeService.getEmployees()
-        .then((res) => {
-            this.setState({employees: res.data});
-        });
-    }
+    
 
     addEmployee(){
-        this.props.history.push('/add-employee/_add')
+        this.props.history.push('/add-employee/_add');
+        window.location.reload();
     }
 
     editEmployee(id){
         this.props.history.push(`/add-employee/${id}`)
+        window.location.reload();
     }
 
     deleteEmployee(id){
@@ -40,6 +37,13 @@ class ListEmployeeComponent extends Component {
 
     viewEmployee(id){
         this.props.history.push(`/view-employee/${id}`)
+        window.location.reload();
+    }
+    componentDidMount(){
+        EmployeeService.getEmployees()
+        .then((res) => {
+            this.setState({employees: res.data});
+        });
     }
 
     render() {

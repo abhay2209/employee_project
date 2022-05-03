@@ -9,12 +9,18 @@ class ViewEmployeeComponent extends Component {
             employee: {}
 
         }
+        this.back = this.back.bind(this)
     }
     componentDidMount(){
         EmployeeService.getEmployeeById(this.state.id).then(res=>{
             this.setState({employee: res.data});
         });
     }
+    back(){
+        this.props.history.push("/employees");
+        window.location.reload();}
+        
+    
 
     render() {
         return (
@@ -34,6 +40,7 @@ class ViewEmployeeComponent extends Component {
                             <label>Employee Email ID:</label>
                             <div>{this.state.employee.emailId}</div>
                         </div>
+                        <button style={{marginTop:"10px"}} className='btn btn-info' onClick={this.back}>Back</button>
                     </div>
 
                 </div>
