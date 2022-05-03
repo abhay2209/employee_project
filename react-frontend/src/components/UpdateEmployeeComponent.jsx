@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EmployeeService from '../services/EmployeeService';
 
-class CreateEmployeeComponent extends Component {
+class UpdateEmployeeComponent extends Component {
     constructor(props){
         super(props)
 
@@ -15,38 +15,29 @@ class CreateEmployeeComponent extends Component {
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
         this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
         this.changeEmailHandler = this.changeEmailHandler.bind(this);
-        this.saveEmployee = this.saveEmployee.bind(this)
+        this.updateEmployee = this.updateEmployee.bind(this)
         this.cancel = this.cancel.bind(this)
     }
 
     componentDidMount(){
-        if(this.state.id == "_add"){
-            return
-        }
-        else{
-        EmployeeService.getEmployeeById(this.state.id).then(res => {
+        EmployeeService.getEmployeeById(this.state.id)
+        .then(res => {
             let employee = res.data;
             this.setState({firstName: employee.firstName, lastName: employee.lastName, emailId: employee.emailId})
-        });}
+        });
     }
 
-    saveEmployee = (e) => {
+    updateEmployee = (e) => {
         e.preventDefault();
 
         let employee = {firstName: this.state.firstName,lastName: this.state.lastName, emailId: this.state.emailId};
+        EmployeeService.updateEmployee(employee,this.state.id)
+        .then(res =>{
+            this.props.history.push('/employees')
+        });
+        };
         
-        if(this.state.id == "_add"){
-            EmployeeService.createEmployee(employee).then(res => {
-            this.props.history.push('/employees')
 
-        });
-        }
-        else{
-            EmployeeService.updateEmployee(employee,this.state.id).then(res =>{
-            this.props.history.push('/employees')
-        });
-        }
-    }
 
     cancel(){
         this.props.history.push('/employees')
@@ -62,15 +53,6 @@ class CreateEmployeeComponent extends Component {
         this.setState({emailId: event.target.value});
     }
 
-    getTitle(){
-        if(this.state.id == "_add"){
-            return <h3 className="text-center"> Add Employee </h3>
-        }
-        else{
-            return <h3 className="text-center"> Update Employee </h3>
-        }
-    }
-
 
     render() {
         return (
@@ -78,9 +60,7 @@ class CreateEmployeeComponent extends Component {
                 <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-6 offset-md-2 offset-md-3">
-                            {
-                                this.getTitle()
-                            }
+                            <h3 className='text-center'> Update Employees </h3>
                             <div className = 'card-body'>
                                 <form>
                                     <div className = 'form-group'>
@@ -96,7 +76,7 @@ class CreateEmployeeComponent extends Component {
                                         <label> Email Id: </label>
                                         <input placeholder='Email Address' name="emailId" className="form-control" value={this.state.emailId} onChange={this.changeEmailHandler}/>
                                     </div>
-                                    <button className='btn btn-success' onClick={this.saveEmployee}>Save</button>
+                                    <button className='btn btn-success' onClick={this.updateEmployee}>Update</button>
                                     {/* You can directly bind here by this.cancel.bind(this) */}
                                     <button className='btn btn-danger' onClick={this.cancel} style={{marginLeft: '10px'}}>Cancel</button>
                                 </form>
@@ -111,4 +91,5 @@ class CreateEmployeeComponent extends Component {
     }
 
 }
-export default CreateEmployeeComponent;
+
+export default UpdateEmployeeComponent;
