@@ -2,7 +2,7 @@
 Project created using tutorials online to learn Spring Boot. Used React for Front end
 
 # Project Technologies 
-1. Springboot/Java for Backend
+1. Spring boot/Java for Backend
 2. React.js for Frontend
 3. MySQL for database 
 
