@@ -33,17 +33,20 @@ class CreateEmployeeComponent extends Component {
     saveEmployee = (e) => {
         e.preventDefault();
 
+
         let employee = {firstName: this.state.firstName,lastName: this.state.lastName, emailId: this.state.emailId};
         
         if(this.state.id == "_add"){
             EmployeeService.createEmployee(employee).then(res => {
             this.props.history.push('/employees')
+            window.location.reload();
 
         });
         }
         else{
             EmployeeService.updateEmployee(employee,this.state.id).then(res =>{
             this.props.history.push('/employees')
+            window.location.reload();
         });
         }
     }
